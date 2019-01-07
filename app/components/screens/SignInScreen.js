@@ -59,6 +59,7 @@ export default class SignInScreen extends React.Component{
       displayAlert: true,
       alert: spop,
     })
+    this.props.navigation.navigate('Drawer', {username: 'Nazwa Użytkownika'})
     // clear error message
     // this.setState({error: ''})
     // try {

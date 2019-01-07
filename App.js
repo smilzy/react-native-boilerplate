@@ -3,7 +3,7 @@ import {
   Platform,
   Dimensions,
 } from 'react-native';
-import RootStack from './app/components/navigation/rootNavigator.js';
+import RootStackNavigator from './app/components/navigation/rootNavigator.js';
 
 export default class App extends Component<Props> {
   constructor() {
@@ -19,7 +19,7 @@ export default class App extends Component<Props> {
 
   render() {
     return (
-      <RootStack />
+      <RootStackNavigator />
     );
   }
 }

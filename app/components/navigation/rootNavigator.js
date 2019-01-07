@@ -26,10 +26,98 @@ import {
 
 import SignInScreen from '../screens/SignInScreen.js'
 
+const AppStackNavigator = createStackNavigator(
+  {
+    HomeScreen: {
+      screen: SignInScreen,
+      navigationOptions:  ({navigation}) => ({
+        title: 'HomeScreen',
+        headerLeft:(
+          <TouchableOpacity
+            onPress={() => navigation.openDrawer()}
+            style={{
+              padding: 15,
+            }}
+          >
+            <Icon name="ios-menu" size={30} color={COLORS.WHITE.WHITE} />
+          </TouchableOpacity>
+        ),
+      })
+    },
+  },
+  {
+    initialRouteName: 'HomeScreen',
+
+    defaultNavigationOptions: ({navigation}) => ({
+      // Hide header from stackNavigator on all routes
+      // header: null,
+      // title: 'Zalogowano',
+      headerStyle: {
+        backgroundColor: COLORS.BLUE.DARK,
+        color: COLORS.WHITE.WHITE,
+        borderBottomWidth: 0,
+        shadowColor: 'transparent',
+        elevation: 0,
+        // paddingRight: 10,
+        // paddingLeft: 15
+      },
+      headerTitleStyle: {
+        // fontWeight: 'bold',
+        color: COLORS.WHITE.WHITE,
+      },
+      headerTintColor: COLORS.WHITE.WHITE,
+    }),
+  },
+)
+
+const DrawerComponent = (props) => {
+  const username = props.navigation.state.params.username
+  return(
+    <SafeAreaView style={{flex: 1}}>
+      <ScrollView>
+        <View style={styles.header}>
+          <Image
+            source={require('../../assets/images/Logo.png')}
+            style={styles.image}
+            />
+        </View>
+        <View style={styles.subheader}>
+          <Text style={styles.label}>Zalogowany jako</Text>
+          <Text style={styles.username}>{username}</Text>
+        </View>
+        {/*<DrawerItems {...props} />*/}
+        <TouchableHighlight
+          underlayColor={'#F9F9F9'}
+          onPress={ () => {
+            // logoutUser()
+            props.navigation.navigate('Home')
+            // TODO: need to clear navigation history and hide drawer component!
+          }
+        }
+        >
+        <View style={styles.drawerElement}>
+          <Icon name='md-exit' size={20} style={styles.icon} />
+          <Text style={styles.text}>Wyloguj</Text>
+        </View>
+      </TouchableHighlight>
+    </ScrollView>
+  </SafeAreaView>
+)
+}
+
+const DrawerNavigator = createDrawerNavigator(
+  {
+    Home: AppStackNavigator,
+  },
+  {
+    contentComponent: DrawerComponent,
+  }
+)
+
 const RootStackNavigator = createStackNavigator(
   {
     RootScreen: SignInScreen,
-    // Drawer: DrawerNavigator,
+    Drawer: DrawerNavigator,
   },
   {
     defaultNavigationOptions: {
@@ -37,15 +125,6 @@ const RootStackNavigator = createStackNavigator(
     },
   }
 )
-
-// const DrawerNavigator = createDrawerNavigator(
-//   {
-//     Home: HomeScreen,
-//   },
-//   {
-//     contentComponent: DrawerComponent,
-//   }
-// )
 
 // const TabNavigator = createMaterialTopTabNavigator(
 //   {
@@ -86,82 +165,5 @@ const RootStackNavigator = createStackNavigator(
 // Wrap it all with DrawerNavigator.
 // Then wrap it all with root StackNavigator to separate LoginScreen from Orders,
 // and also allow passing user details to DrawerNavigator (to display data in side drawer via props!)
-// const StackNavigator = createStackNavigator(
-//   {
-//     HomeScreen: {
-//       screen: HomeScreen,
-//       navigationOptions:  ({navigation}) => ({
-//         title: 'HomeScreen',
-//         headerLeft:(
-//           <TouchableOpacity
-//             onPress={() => navigation.openDrawer()}
-//             style={{
-//               padding: 15,
-//             }}
-//           >
-//             <Icon name="ios-menu" size={30} color={COLORS.WHITE.WHITE} />
-//           </TouchableOpacity>
-//         ),
-//       })
-//     },
-//   },
-//   {
-//     initialRouteName: 'HomeScreen',
-//
-//     navigationOptions: ({navigation}) => ({
-//       // Hide header from stackNavigator on all routes
-//       // header: null,
-//       // title: 'Podgląd zamówienia',
-//       headerStyle: {
-//         backgroundColor: COLORS.BLUE.DARK,
-//         color: COLORS.WHITE.WHITE,
-//         borderBottomWidth: 0,
-//         shadowColor: 'transparent',
-//         elevation: 0,
-//         // paddingRight: 10,
-//         // paddingLeft: 15
-//       },
-//       headerTitleStyle: {
-//         // fontWeight: 'bold',
-//         color: COLORS.WHITE.WHITE,
-//       },
-//       headerTintColor: COLORS.WHITE.WHITE,
-//     }),
-//   },
-// )
-//
-// const DrawerComponent = (props) => {
-//   const username = 'Uzytkownik' // props.navigation.state.params.username
-//   return(
-//     <SafeAreaView style={{flex: 1}}>
-//       <ScrollView>
-//         <View style={styles.header}>
-//           <Image
-//             source={require('../../assets/images/Logo.png')}
-//             style={styles.image}
-//           />
-//         </View>
-//         <View style={styles.subheader}>
-//           <Text style={styles.label}>Zalogowany jako</Text>
-//           <Text style={styles.username}>{username}</Text>
-//         </View>
-//         {/*<DrawerItems {...props} />*/}
-//         <TouchableHighlight
-//           underlayColor={'#F9F9F9'}
-//           onPress={ () => {
-//               // logoutUser()
-//               props.navigation.navigate('HomeScreen')
-//               // TODO: need to clear navigation history and hide drawer component!
-//             }
-//           }
-//         >
-//           <View style={styles.drawerElement}>
-//             <Icon name='md-exit' size={20} style={styles.icon} />
-//             <Text style={styles.text}>Wyloguj</Text>
-//           </View>
-//         </TouchableHighlight>
-//       </ScrollView>
-//     </SafeAreaView>
-//   )}
 
 export default createAppContainer(RootStackNavigator);
