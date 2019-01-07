@@ -14,7 +14,7 @@ import {
   COLORS,
   signInStyles as styles
 } from '../../assets/styles.js';
-// import Alert, { renderAlert } from '../../../notifications/Alert.js';
+import Alert, { renderAlert } from '../notifications/Alert.js';
 // import { storeInAsync, getFromAsync, removeFromAsync } from '../../../asyncStorage/asyncStorageMethods.js';
 // import { authenticateUser, logoutUser, storeUserData, getUserData } from '../../../asyncStorage/userAuthenticator.js';
 
@@ -35,7 +35,7 @@ export default class SignInScreen extends React.Component{
       alert: '',
     }
 
-    // this.renderAlert = renderAlert.bind(this)
+    this.renderAlert = renderAlert.bind(this)
   }
 
   async componentDidMount() {
@@ -51,8 +51,15 @@ export default class SignInScreen extends React.Component{
 
   // async / await function for fetching data from IP
   async signIn(){
+    let spop = {
+      message: 'Signing in',
+      type: 'success',
+    }
+    this.setState({
+      displayAlert: true,
+      alert: spop,
+    })
     // clear error message
-    alert('Signing in')
     // this.setState({error: ''})
     // try {
     //   let response = await fetch(`${API_URL}/courier_panel/sessions`, {
@@ -149,7 +156,7 @@ export default class SignInScreen extends React.Component{
           <Text style={{color: 'red'}}>{this.state.error}</Text>
           <Text style={{color: 'red'}}>{this.state.displayAlert}</Text>
         </View>
-        {/*this.renderAlert()*/}
+        {this.renderAlert()}
       </View>
     );
   }
